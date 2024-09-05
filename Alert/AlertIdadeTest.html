@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verificação de Idade</title>
+</head>
+<body>
+    <h1>Exemplo de Verificação de idade pelo alert</h1>
+    <button onclick="verificarIdade()">Verificar Idade</button>
+    <script>
+        function verificarIdade() {
+            
+            const idade = prompt("Por favor, insira sua idade:");
+
+         
+            const idadeNumero = parseInt(idade, 10);
+
+            
+            if (isNaN(idadeNumero)) {
+                alert("Por favor, insira um número válido para a idade.");
+            } else {5
+                
+                if (idadeNumero >= 18) {
+                    alert("Você é maior de idade, já pode ser preso.");
+                } else {
+                    alert("Você é menor de idade.");
+                }
+            }
+        }
+
+
+        
+    </script>
+
+<h1>Exemplo de Confirm</h1>
+<button onclick="confirmarAcao()">Clique para Confirmar</button>
+<script>
+    function confirmarAcao() {
+        // Exibe a caixa de diálogo de confirmação
+        const resultado = confirm("Você deseja continuar com a ação?");
+
+        // Verifica a resposta do usuário e exibe o alerta apropriado
+        if (resultado) {
+            alert("Você clicou em OK. A ação foi confirmada.");
+        } else {
+            alert("Você clicou em Cancelar. A ação foi cancelada.");
+        }
+    }
+
+    </script>
+
+<h1>Exemplo de Prompt</h1>
+<button onclick="solicitarNome()">Clique para Inserir seu Nome</button>
+<script>
+    function solicitarNome() {
+        // Solicita ao usuário que insira seu nome
+        const nome = prompt("Por favor, insira seu nome:");
+
+        // Verifica se o usuário inseriu um nome ou cancelou a ação
+        if (nome !== null && nome.trim() !== "") {
+            // Se o nome não for nulo e não estiver vazio, exibe uma mensagem de boas-vindas
+            alert("Olá, " + nome + "! Bem-vindo ao nosso site.");
+        } else if (nome === null) {
+            // Se o usuário clicou em Cancelar, exibe uma mensagem apropriada
+            alert("Você cancelou a inserção do nome.");
+        } else {
+            // Se o nome estiver vazio, exibe uma mensagem apropriada
+            alert("Você não inseriu um nome.");
+        }
+    }
+</script>
+
+</body>
+</html>
