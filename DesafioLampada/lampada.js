@@ -7,7 +7,7 @@ const lampada = document.getElementById('lampada');
 
 function controlarLampada(event) {
     if (lampada.src.includes('multimidia/lampada-quebrada.jpg')) {
-        // Se a lâmpada estiver quebrada, não faz nada.
+        
         return;
     }
 
@@ -28,7 +28,7 @@ function controlarLampada(event) {
     }
 }
 
-// Adiciona os ouvintes de eventos à lâmpada
+
 lampada.addEventListener('mouseover', controlarLampada);
 lampada.addEventListener('mouseout', controlarLampada);
 lampada.addEventListener('click', controlarLampada);
