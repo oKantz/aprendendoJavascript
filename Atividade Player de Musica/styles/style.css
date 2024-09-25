@@ -1,9 +1,6 @@
 body {
-    background-image: linear-gradient(
-        rgb(59, 87, 94),
-        rgb(25, 35, 37)
-    );
-    height: 100vh;
+    background-image: linear-gradient(rgb(150, 134, 72), rgb(56, 47, 18));
+    height: 98.3vh;
     color: white;
     font-family: sans-serif;
     display: flex;
@@ -11,29 +8,22 @@ body {
     align-items: center;
 }
 
-@keyframes gradientAnimation {
-    0% {
-        background-position: 0% 0%;
-    }
-    50% {
-        background-position: 100% 100%;
-    }
-    100% {
-        background-position: 0% 0%;
-    }
+button {
+    background-color: inherit;
+    color: inherit;
+    border: none;
 }
 
-img {
-    height: 300px;
-    width: 300px;
+#cover {
+    height: 200px;
+    width: 200px;
 }
 
-#below-cover { /* Corrigido de "bellow-cover" para "below-cover" */
+#below-cover {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    margin: 3em 0 1em 0;
 }
 
 #button-container {
@@ -43,8 +33,17 @@ img {
     align-items: center;
 }
 
-#cover {
-    width: 450px;
+.button {
+    font-size: 1.5em;
+    cursor: pointer;
+}
+
+.button-navigate {
+    font-size: 3em;
+}
+
+.button-biggest {
+    font-size: 4em;
 }
 
 #playlist-title {
@@ -54,9 +53,29 @@ img {
     margin: 1em 0 4em 0;
 }
 
+.button-active {
+    color: rgb(0, 128, 62)
+}
+
+#time-box {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    font-size: smaller;
+    margin-top: 0.5em;
+}
+
+#below-cover {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin: 3em 0 1em 0;
+}
+
 #song-name {
     font-size: 1.5em;
-    font-weight: bold; /* Corrigido de "bolder" para "bold" */
+    font-weight: bolder;
 }
 
 .light-color {
@@ -70,15 +89,6 @@ img {
     border-radius: 15px;
 }
 
-.button {
-    font-size: 1.5em;
-    cursor: pointer;
-}
-
-.button-navigate {
-    font-size: 3em;
-}
-
 #current-progress {
     --progress: 0%;
     background-color: white;
@@ -88,17 +98,22 @@ img {
 }
 
 #progress-container {
+    padding-bottom: 1em;
     cursor: pointer;
 }
 
 .button-active {
-    color: rgb(0, 128, 62);
+    color: rgb(0, 128, 62)
 }
 
-#time-box {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    font-size: smaller;
-    margin-top: 0.5em;
+#play {
+    font-size: 3em;
+}
+
+#previous {
+    font-size: 2em;
+}
+
+#next {
+    font-size: 2em;
 }
