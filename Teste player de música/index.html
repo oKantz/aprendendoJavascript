@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>Player de Música</title>
+</head>
+<body>
+    <div class="music-player"> <!-- Alterado de 'player' para 'music-player' -->
+        <img id="cover" src="cover1.png" alt="Capa da Música"> <!-- Alterado de 'id' para 'class cover' -->
+        <h2 id="song-title" class="song-title"></h2>
+        <h3 id="song-author" class="song-author"></h3>
+        
+        <audio id="audio" controls>
+            <source id="audio-source" src="musica1.mp3" type="audio/mpeg">
+            Seu navegador não suporta o elemento de áudio.
+        </audio>
+
+        <div class="controls"> <!-- Mantido como 'controls' -->
+            <button id="prev" class="btn">Anterior</button> <!-- Adicionada a classe 'btn' -->
+            <button id="play" class="btn">Tocar</button> <!-- Adicionada a classe 'btn' -->
+            <button id="next" class="btn">Próxima</button> <!-- Adicionada a classe 'btn' -->
+            <button id="like" class="btn">Curtir</button> <!-- Adicionada a classe 'btn' -->
+        </div>
+
+        <p id="liked-message" class="liked-message" style="display: none;">Você curtiu a música!</p> <!-- Adicionada a classe 'liked-message' -->
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

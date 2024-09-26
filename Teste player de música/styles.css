@@ -1,0 +1,105 @@
+body { 
+    background-color: #f8f9fa; /* Fundo suave */
+    font-family: 'Arial', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.music-player {
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+    text-align: center;
+    width: 400px; /* Largura ajustada */
+}
+
+#cover {
+    width: 100%;
+    height: auto;
+    max-height: 300px;
+    object-fit: cover;
+    border-radius: 15px;
+    transition: transform 0.3s;
+}
+
+#cover:hover {
+    transform: scale(1.05);
+}
+
+.song-title {
+    font-size: 26px; /* Tamanho maior */
+    margin: 15px 0 5px 0;
+    color: #333;
+    font-weight: bold;
+}
+
+.song-author {
+    font-size: 20px; /* Tamanho maior */
+    margin: 5px 0;
+    color: #666; /* Cor mais suave */
+}
+
+.controls {
+    margin: 20px 0;
+    display: flex;
+    justify-content: space-between; /* Espaço entre os botões */
+}
+
+.btn {
+    background: linear-gradient(135deg, #6EC1E4, #2A7FAA); /* Gradiente azul suave */
+    color: white;
+    border: none;
+    padding: 12px 20px; /* Tamanho do botão aumentado */
+    border-radius: 50px; /* Bordas bem arredondadas */
+    cursor: pointer;
+    font-size: 16px;
+    transition: background 0.3s, transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15); /* Sombra suave e mais expansiva */
+    width: 80px; /* Largura fixa para uniformidade */
+}
+
+.btn:hover {
+    background: linear-gradient(135deg, #549DBE, #1E5F8A); /* Azul mais escuro ao passar o mouse */
+    transform: translateY(-5px); /* Efeito de elevação ao passar o mouse */
+    box-shadow: 0 6px 25px rgba(0, 0, 0, 0.3); /* Sombra mais intensa no hover */
+}
+
+.btn:active {
+    transform: translateY(-2px); /* Leve elevação ao clicar */
+    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.2); /* Sombra reduzida ao clicar */
+}
+
+.liked-message {
+    margin-top: 10px;
+    font-weight: bold;
+    color: green;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.liked-message.show {
+    opacity: 1;
+}
+
+@media (max-width: 500px) {
+    .music-player {
+        width: 90%; /* Largura responsiva */
+    }
+
+    .song-title {
+        font-size: 22px; /* Ajuste para telas pequenas */
+    }
+
+    .song-author {
+        font-size: 18px; /* Ajuste para telas pequenas */
+    }
+
+    .btn {
+        font-size: 14px; /* Tamanho do botão reduzido */
+        padding: 10px; /* Reduzindo o padding */
+    }
+}
