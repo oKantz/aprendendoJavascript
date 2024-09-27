@@ -3,13 +3,13 @@ const songs = [
         title: "Oreko",
         author: "sun is poison",
         file: "songs/oreko.mp3",
-        cover: "imagens/oreko.png" // Alterado para PNG
+        cover: "imagens/oreko.png" 
     },
     {
         title: "Chase",
         author: "Batta",
         file: "songs/chase_batta.mp3",
-        cover: "imagens/chase_batta.png" // Alterado para PNG
+        cover: "imagens/chase_batta.png" 
     }
 ];
 
@@ -17,16 +17,16 @@ let currentSongIndex = 0;
 const audio = document.getElementById('audio');
 const audioSource = document.getElementById('audio-source');
 const cover = document.getElementById('cover');
-const songTitle = document.getElementById('song-title'); // Título
-const songAuthor = document.getElementById('song-author'); // Autor
+const songTitle = document.getElementById('song-title'); 
+const songAuthor = document.getElementById('song-author'); 
 const likeButton = document.getElementById('like');
 const likedMessage = document.getElementById('liked-message');
 
 function loadSong(index) {
     audioSource.src = songs[index].file;
-    cover.src = songs[index].cover; // Usando PNG
-    songTitle.textContent = songs[index].title; // Atualizando o título da música
-    songAuthor.textContent = songs[index].author; // Atualizando o autor
+    cover.src = songs[index].cover; 
+    songTitle.textContent = songs[index].title; 
+    songAuthor.textContent = songs[index].author; 
     audio.load();
 }
 
@@ -57,5 +57,4 @@ likeButton.addEventListener('click', () => {
     }, 2000);
 });
 
-// Carregar a primeira música ao iniciar
 loadSong(currentSongIndex);

@@ -1,0 +1,37 @@
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f0f0f0;
+    margin: 0;
+    background-image: url('imagens/backgroundfoto2.jpg');
+    background-repeat: no-repeat;
+}
+
+.drum-kit {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.drum {
+    background-color: #007bff;
+    border: none;
+    color: white;
+    padding: 20px 30px;
+    font-size: 24px;
+    margin: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.drum:hover {
+    background-color: #0056b3;
+}
+
+.drum:active {
+    transform: scale(0.95);
+}
