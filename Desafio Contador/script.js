@@ -21,5 +21,4 @@ function startTimer() {
     }, 1000);
   }
 
-  // Start the timer on page load
   window.onload = startTimer;
