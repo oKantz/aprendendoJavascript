@@ -1,0 +1,43 @@
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    background-color: #f4f4f4;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100vh;
+    margin: 0;
+    background-image: url('fundo34.jpg');
+    background-repeat: no-repeat;
+  }
+
+  h1 {
+    font-size: 5rem;
+    margin-bottom: 20px;
+  }
+
+  #timer {
+    font-size: 3rem;
+    margin-bottom: 40px;
+  }
+
+  #live {
+    font-size: 2rem;
+    font-weight: bold;
+    color: red;
+    margin-bottom: 30px;
+  }
+
+  button {
+    padding: 10px 20px;
+    font-size: 1.5rem;
+    color: white;
+    background-color: #ff0000;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+
+  button:hover {
+    background-color: #b30000bb;
+  }

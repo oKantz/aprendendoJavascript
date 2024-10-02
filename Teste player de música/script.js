@@ -13,7 +13,10 @@ const songs = [
     }
 ];
 
-let currentSongIndex = 0;
+
+
+
+currentSongIndex = 0;
 const audio = document.getElementById('audio');
 const audioSource = document.getElementById('audio-source');
 const cover = document.getElementById('cover');
