@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DOOM Style FPS with Enemies</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            background: black;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        canvas {
+            display: block;
+            background-color: #333;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="gameCanvas"></canvas>
+
+    <script>
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        const map = [
+            [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+            [1, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+            [1, 0, 1, 0, 1, 0, 0, 1, 0, 1],
+            [1, 0, 1, 0, 1, 0, 0, 1, 0, 1],
+            [1, 0, 0, 0, 0, 0, 0, 1, 0, 1],
+            [1, 0, 1, 1, 1, 1, 0, 0, 0, 1],
+            [1, 0, 0, 0, 0, 1, 0, 0, 0, 1],
+            [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+        ];
+
+        const tileSize = 64;
+        const player = {
+            x: tileSize * 1.5,
+            y: tileSize * 1.5,
+            angle: 0,
+            speed: 3,
+            health: 100
+        };
+
+        const fov = Math.PI / 3;
+        const numRays = canvas.width / 2;
+        const maxDepth = 300;
+
+        // Lista de inimigos
+        const enemies = [
+            { x: 320, y: 320, alive: true },
+            { x: 400, y: 200, alive: true }
+        ];
+
+        let keys = {
+            w: false,
+            a: false,
+            s: false,
+            d: false,
+            space: false
+        };
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'w') keys.w = true;
+            if (e.key === 'a') keys.a = true;
+            if (e.key === 's') keys.s = true;
+            if (e.key === 'd') keys.d = true;
+            if (e.key === ' ') keys.space = true;
+        });
+
+        document.addEventListener('keyup', (e) => {
+            if (e.key === 'w') keys.w = false;
+            if (e.key === 'a') keys.a = false;
+            if (e.key === 's') keys.s = false;
+            if (e.key === 'd') keys.d = false;
+            if (e.key === ' ') keys.space = false;
+        });
+
+        // Verifica se há uma parede em uma posição
+        function isWall(x, y) {
+            const gridX = Math.floor(x / tileSize);
+            const gridY = Math.floor(y / tileSize);
+            return map[gridY] && map[gridY][gridX] === 1;
+        }
+
+        // Movimentação do jogador
+        function movePlayer() {
+            let moveX = 0;
+            let moveY = 0;
+
+            if (keys.w) {
+                moveX = Math.cos(player.angle) * player.speed;
+                moveY = Math.sin(player.angle) * player.speed;
+            }
+            if (keys.s) {
+                moveX = -Math.cos(player.angle) * player.speed;
+                moveY = -Math.sin(player.angle) * player.speed;
+            }
+            if (keys.a) player.angle -= 0.05;
+            if (keys.d) player.angle += 0.05;
+
+            const newX = player.x + moveX;
+            const newY = player.y + moveY;
+
+            if (!isWall(newX, newY)) {
+                player.x = newX;
+                player.y = newY;
+            }
+        }
+
+        // Movimentação dos inimigos
+        function moveEnemies() {
+            enemies.forEach(enemy => {
+                if (enemy.alive) {
+                    const dx = player.x - enemy.x;
+                    const dy = player.y - enemy.y;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+                    
+                    // Movimento em direção ao jogador
+                    if (dist > 20) {
+                        enemy.x += (dx / dist) * 1;
+                        enemy.y += (dy / dist) * 1;
+                    }
+                }
+            });
+        }
+
+        // Verificar colisões com tiros
+        function checkShotHit(rayX, rayY) {
+            enemies.forEach(enemy => {
+                if (enemy.alive) {
+                    const dx = enemy.x - rayX;
+                    const dy = enemy.y - rayY;
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+
+                    if (distance < 20) {
+                        enemy.alive = false;  // O inimigo é derrotado
+                    }
+                }
+            });
+        }
+
+        // Função para renderizar os inimigos
+        function renderEnemies() {
+            enemies.forEach(enemy => {
+                if (enemy.alive) {
+                    const dist = Math.sqrt(Math.pow(player.x - enemy.x, 2) + Math.pow(player.y - enemy.y, 2));
+                    if (dist < maxDepth) {
+                        const enemyHeight = (tileSize * 500) / dist;
+                        const screenX = (canvas.width / 2) + (Math.atan2(enemy.y - player.y, enemy.x - player.x) - player.angle) * canvas.width / fov;
+                        const screenY = canvas.height / 2 - enemyHeight / 2;
+                        
+                        ctx.fillStyle = 'red';
+                        ctx.fillRect(screenX, screenY, 10, enemyHeight);
+                    }
+                }
+            });
+        }
+
+        // Renderização dos tiros (arma)
+        function shoot() {
+            if (keys.space) {
+                const shotX = player.x + Math.cos(player.angle) * tileSize;
+                const shotY = player.y + Math.sin(player.angle) * tileSize;
+
+                // Verifica se um tiro atinge um inimigo
+                checkShotHit(shotX, shotY);
+                keys.space = false;  // Impede disparo contínuo
+            }
+        }
+
+        // Função para lançar os raios e renderizar o cenário
+        function castRays() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            for (let i = 0; i < numRays; i++) {
+                const rayAngle = player.angle - fov / 2 + (i / numRays) * fov;
+                let hitWall = false;
+
+                for (let depth = 0; depth < maxDepth; depth++) {
+                    const rayX = player.x + Math.cos(rayAngle) * depth;
+                    const rayY = player.y + Math.sin(rayAngle) * depth;
+
+                    if (isWall(rayX, rayY)) {
+                        const wallHeight = (tileSize * 600) / (depth * Math.cos(rayAngle - player.angle));
+
+                        const brightness = 1 - depth / maxDepth;
+                        ctx.fillStyle = `rgba(255, 255, 255, ${brightness})`;
+                        ctx.fillRect(i * (canvas.width / numRays), (canvas.height / 2) - wallHeight / 2, canvas.width / numRays, wallHeight);
+                        hitWall = true;
+                        break;
+                    }
+                }
+            }
+
+            // Renderiza os inimigos
+            renderEnemies();
+        }
+
+        // Função principal do loop de jogo
+        function gameLoop() {
+            movePlayer();
+            moveEnemies();
+            shoot();
+            castRays();
+            requestAnimationFrame(gameLoop);
+        }
+
+        // Inicia o loop do jogo
+        gameLoop();
+    </script>
+</body>
+</html>
