@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D Raycasting Game with Enemy</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+        canvas {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="gameCanvas"></canvas>
+
+    <script>
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        // Map grid
+        const map = [
+            [1, 1, 1, 1, 1, 1, 1, 1],
+            [1, 0, 0, 0, 0, 0, 0, 1],
+            [1, 0, 1, 0, 1, 0, 0, 1],
+            [1, 0, 1, 0, 1, 0, 0, 1],
+            [1, 0, 1, 0, 0, 0, 0, 1],
+            [1, 0, 0, 0, 1, 0, 0, 1],
+            [1, 0, 1, 0, 1, 0, 0, 1],
+            [1, 1, 1, 1, 1, 1, 1, 1],
+        ];
+
+        const tileSize = 64;
+        const mapWidth = map[0].length;
+        const mapHeight = map.length;
+
+        const player = {
+            x: 150,
+            y: 150,
+            angle: 0,
+            speed: 3
+        };
+
+        const fov = Math.PI / 3;
+        const numRays = canvas.width;
+        const maxDepth = 500;
+
+        // Movement keys
+        const keys = {
+            forward: false,
+            backward: false,
+            left: false,
+            right: false
+        };
+
+        // Load the enemy image
+        const enemyImage = new Image();
+        enemyImage.src = 'enemy.png'; // Make sure to replace with your enemy image path
+
+        // Enemy object with position and size
+        const enemy = {
+            x: 300,  // X position in the game world
+            y: 200,  // Y position in the game world
+            width: 135,
+            height: 175
+        };
+
+        function castRays() {
+            const rayAngleStep = fov / numRays;
+            let currentAngle = player.angle - fov / 2;
+
+            for (let ray = 0; ray < numRays; ray++) {
+                let distanceToWall = 0;
+                let hitWall = false;
+
+                const raySin = Math.sin(currentAngle);
+                const rayCos = Math.cos(currentAngle);
+
+                while (!hitWall && distanceToWall < maxDepth) {
+                    distanceToWall += 0.1;
+
+                    const testX = Math.floor((player.x + rayCos * distanceToWall) / tileSize);
+                    const testY = Math.floor((player.y + raySin * distanceToWall) / tileSize);
+
+                    if (testX < 0 || testX >= mapWidth || testY < 0 || testY >= mapHeight) {
+                        hitWall = true;
+                        distanceToWall = maxDepth;
+                    } else if (map[testY][testX] === 1) {
+                        hitWall = true;
+                    }
+                }
+
+                const wallHeight = canvas.height / distanceToWall;
+                const wallShade = Math.max(0, 255 - (distanceToWall * 5));
+
+                ctx.fillStyle = `rgb(${wallShade}, ${wallShade}, ${wallShade})`;
+                ctx.fillRect(ray, (canvas.height - wallHeight) / 2, 1, wallHeight);
+
+                currentAngle += rayAngleStep;
+            }
+        }
+
+        function drawEnemy() {
+            // Calculate distance between player and enemy
+            const dx = enemy.x - player.x;
+            const dy = enemy.y - player.y;
+            const distance = Math.sqrt(dx * dx + dy * dy);
+
+            // Calculate angle to enemy from the player's current angle
+            const angleToEnemy = Math.atan2(dy, dx) - player.angle;
+
+            // If the enemy is within the player's field of view, draw it
+            if (Math.abs(angleToEnemy) < fov / 2 && distance < maxDepth) {
+                const enemyScreenX = (canvas.width / 2) + (angleToEnemy * (canvas.width / fov));
+                const enemyHeight = canvas.height / distance;
+                const enemyWidth = (enemy.height / enemy.width) * enemyHeight;
+
+                // Draw the enemy image scaled according to distance
+                ctx.drawImage(
+                    enemyImage,
+                    enemyScreenX - (enemyWidth / 2),
+                    (canvas.height / 2) - (enemyHeight / 2),
+                    enemyWidth,
+                    enemyHeight
+                );
+            }
+        }
+
+        function movePlayer() {
+            const moveSpeed = keys.forward ? player.speed : keys.backward ? -player.speed : 0;
+            const strafeSpeed = keys.right ? player.speed : keys.left ? -player.speed : 0;
+
+            player.x += Math.cos(player.angle) * moveSpeed - Math.sin(player.angle) * strafeSpeed;
+            player.y += Math.sin(player.angle) * moveSpeed + Math.cos(player.angle) * strafeSpeed;
+
+            // Collision detection with walls
+            const mapX = Math.floor(player.x / tileSize);
+            const mapY = Math.floor(player.y / tileSize);
+
+            if (map[mapY][mapX] === 1) {
+                player.x -= Math.cos(player.angle) * moveSpeed;
+                player.y -= Math.sin(player.angle) * moveSpeed;
+            }
+        }
+
+        function gameLoop() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            movePlayer();
+            castRays();
+            drawEnemy();
+
+            requestAnimationFrame(gameLoop);
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'w') keys.forward = true;
+            if (e.key === 's') keys.backward = true;
+            if (e.key === 'a') keys.left = true;
+            if (e.key === 'd') keys.right = true;
+            if (e.key === 'ArrowLeft') player.angle -= 0.1;
+            if (e.key === 'ArrowRight') player.angle += 0.1;
+        });
+
+        document.addEventListener('keyup', (e) => {
+            if (e.key === 'w') keys.forward = false;
+            if (e.key === 's') keys.backward = false;
+            if (e.key === 'a') keys.left = false;
+            if (e.key === 'd') keys.right = false;
+        });
+
+        // Start the game loop after the enemy image has loaded
+        enemyImage.onload = () => {
+            gameLoop();
+        };
+    </script>
+</body>
+</html>
