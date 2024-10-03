@@ -1,0 +1,104 @@
+/* Body and General Styles */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #2E2E2E; /* Dark background */
+    color: #FFFFFF; /* White text */
+    margin: 0;
+    padding: 20px;
+}
+
+/* Header Styles */
+h1 {
+    color: #FFFFFF;
+    text-align: center;
+    text-shadow: 1px 1px 2px #000;
+}
+
+/* Form Container */
+form {
+    background: rgba(30, 40, 30, 0.8); /* Dark camo background for forms */
+    padding: 20px;
+    border-radius: 8px;
+    margin: 20px auto;
+    max-width: 400px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+}
+
+/* Form Labels */
+form label {
+    color: #FFFFFF; 
+    display: block; /* Ensure labels are on their own line */
+    margin-top: 10px;
+}
+
+/* Input Fields */
+input[type="text"], input[type="password"] {
+    width: calc(100% - 20px);
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #4F7C4F; /* Lighter green border */
+    border-radius: 5px;
+    background: rgba(255, 255, 255, 0.1); /* Slightly transparent input background */
+    color: #FFFFFF;
+}
+
+/* Submit Button Styles */
+input[type="submit"] {
+    background: #4F7C4F; /* Green button for login/register */
+    color: #FFFFFF;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s;
+    margin-top: 10px; /* Spacing above the button */
+}
+
+input[type="submit"]:hover {
+    background: #3D663D; /* Darker shade for hover */
+}
+
+/* Links */
+a {
+    color: #4F7C4F; /* Green links */
+    text-decoration: none;
+    display: block; /* Display links as block for easier clicking */
+    text-align: center; /* Center align */
+    margin-top: 10px; /* Space between links */
+    transition: color 0.3s;
+}
+
+a:hover {
+    color: #C0C0C0; /* Light grey on hover */
+}
+
+/* Post Styles */
+.post {
+    background-color: rgba(40, 40, 40, 0.8); /* Dark background for posts */
+    border: 1px solid #4F7C4F; /* Lighter green border */
+    border-radius: 5px; /* Rounded corners */
+    padding: 10px;
+    margin-bottom: 15px; /* Space between posts */
+}
+
+/* Delete Button Styles */
+.delete-button {
+    display: flex; /* Flexbox for better alignment */
+    justify-content: flex-end; /* Align button to the right */
+    margin-top: 10px; /* Space above the delete button */
+}
+
+.delete-button input[type="submit"] {
+    background-color: #c94c4c; /* Red background for delete */
+    color: white; /* White text */
+    border: none; /* No border */
+    padding: 5px 10px; /* Smaller padding */
+    font-size: 12px; /* Smaller font size */
+    border-radius: 5px; /* Rounded corners */
+    cursor: pointer; /* Pointer cursor */
+    transition: background-color 0.3s; /* Smooth transition for hover effect */
+}
+
+.delete-button input[type="submit"]:hover {
+    background-color: #a43c3c; /* Darker red on hover */
+}
