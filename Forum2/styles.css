@@ -49,18 +49,25 @@ nav a:hover {
     color: red;
 }
 
-.posts {
+.posts, .messages {
     margin-top: 20px;
 }
 
-.post {
+.post, .message {
     border-bottom: 1px solid #ddd;
     padding: 10px 0;
-    background-color: #e3f2e5; /* Cor de fundo leve para postagens */
+    background-color: #e3f2e5; /* Cor de fundo leve para postagens e mensagens */
     border-radius: 5px;
 }
 
 .post-image {
+    max-width: 100%;
+    height: auto;
+    border-radius: 5px;
+    margin-top: 10px;
+}
+
+.post-video {
     max-width: 100%;
     height: auto;
     border-radius: 5px;
@@ -100,12 +107,21 @@ form button:hover {
     background-color: #2c4d1f; /* Verde mais escuro ao passar o mouse */
 }
 
-.post a {
+.post a, .message a {
     color: #c0392b; /* Vermelho para o link de exclusão */
     margin-left: 10px;
     text-decoration: none;
 }
 
-.post a:hover {
+.post a:hover, .message a:hover {
     text-decoration: underline; /* Sublinha ao passar o mouse */
+}
+
+/* Estilos específicos para a seção de mensagens */
+.messages {
+    margin-top: 40px; /* Espaço extra antes das mensagens */
+}
+
+.message p {
+    margin: 0; /* Remove margem padrão dos parágrafos */
 }

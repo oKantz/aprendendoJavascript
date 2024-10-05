@@ -1,45 +1,46 @@
-<!-- register.php -->
-<?php
-session_start();
-include 'db.php';
-
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $username = $_POST['username'];
-    $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
-
-    $stmt = $conn->prepare("INSERT INTO users (username, password) VALUES (?, ?)");
-    $stmt->bind_param("ss", $username, $password);
-
-    if ($stmt->execute()) {
-        $_SESSION['success'] = "Usuário registrado com sucesso!";
-        header('Location: login.php');
-    } else {
-        $_SESSION['error'] = "Erro ao registrar: " . $conn->error;
-    }
-}
-
-?>
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
-    <title>Registrar</title>
+    <link rel="stylesheet" href="styles.css">
+    <title>Registrar - Mili41</title>
 </head>
 <body>
+    <header>
+        <h1>Registrar - Mili41</h1>
+    </header>
     <div class="container">
-        <h2>Registrar</h2>
-        <?php if (isset($_SESSION['error'])): ?>
-            <div class="error"><?php echo $_SESSION['error']; unset($_SESSION['error']); ?></div>
-        <?php endif; ?>
-        <form method="POST">
+        <form method="POST" action="register.php">
             <input type="text" name="username" placeholder="Nome de usuário" required>
             <input type="password" name="password" placeholder="Senha" required>
             <button type="submit">Registrar</button>
         </form>
-        <p>Já tem uma conta? <a href="login.php">Faça login</a></p>
+        <a href="login.php">Já tem uma conta? Faça login</a>
     </div>
+
+    <?php
+    include 'db.php';
+    
+    // Processar o registro
+    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        $username = $_POST['username'];
+        $password = $_POST['password'];
+
+        // Criptografa a senha
+        $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+
+        // Insere o novo usuário no banco de dados
+        $stmt = $conn->prepare("INSERT INTO users (username, password) VALUES (?, ?)");
+        $stmt->bind_param("ss", $username, $hashed_password);
+        
+        if ($stmt->execute()) {
+            echo "Registro concluído com sucesso!";
+            // Redirecionar ou logar o usuário aqui
+        } else {
+            echo "Erro: " . $stmt->error;
+        }
+    }
+    ?>
 </body>
 </html>
